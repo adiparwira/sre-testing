@@ -14,6 +14,7 @@ spec:
       labels:
         app: nexus
     spec:
+      serviceAccountName: nexus
       securityContext:
         fsGroup: 200
       containers:
