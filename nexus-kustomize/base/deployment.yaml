@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexus
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nexus
+  template:
+    metadata:
+      labels:
+        app: nexus
+    spec:
+      securityContext:
+        fsGroup: 200
+      containers:
+        - name: nexus
+          image: nexus3-gcs
+          ports:
+            - name: http
+              containerPort: 8081
+          env:
+            - name: INSTALL4J_ADD_VM_PARAMS
+              value: >-
+                -Xms1200M -Xmx1200M
+                -XX:MaxDirectMemorySize=2G
+                -Djava.util.prefs.userRoot=/nexus-data/javaprefs
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /etc/gcp/key.json
+          volumeMounts:
+            - name: nexus-data
+              mountPath: /nexus-data
+            - name: gcp-credentials
+              mountPath: /etc/gcp
+              readOnly: true
+          resources:
+            requests:
+              cpu: "500m"
+              memory: 1200Mi
+            limits:
+              cpu: "2"
+              memory: 2Gi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8081
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 12
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8081
+            initialDelaySeconds: 90
+            periodSeconds: 20
+            failureThreshold: 6
+      volumes:
+        - name: nexus-data
+          persistentVolumeClaim:
+            claimName: nexus-data
+        - name: gcp-credentials
+          secret:
+            secretName: nexus-gcp-credentials
