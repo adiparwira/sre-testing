@@ -7,8 +7,11 @@ resources:
   - pvc.yaml
   - serviceaccount.yaml
 
-commonLabels:
-  app: nexus
+labels:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
+      app: nexus
 
 images:
   - name: nexus3-gcs
