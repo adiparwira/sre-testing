@@ -70,3 +70,9 @@ variable "gke_node_locations" {
     "us-central1-f"
   ]
 }
+
+variable "gcs_bucket_name" {
+  description = "Nama bucket GCS untuk Nexus blob store (harus unik secara global)"
+  type        = string
+  default = "nexus-gcplearn999"
+}

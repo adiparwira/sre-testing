@@ -33,9 +33,6 @@ spec:
           volumeMounts:
             - name: nexus-data
               mountPath: /nexus-data
-            - name: gcp-credentials
-              mountPath: /etc/gcp
-              readOnly: true
           resources:
             requests:
               cpu: "500m"
@@ -61,6 +58,3 @@ spec:
         - name: nexus-data
           persistentVolumeClaim:
             claimName: nexus-data
-        - name: gcp-credentials
-          secret:
-            secretName: nexus-gcp-credentials
