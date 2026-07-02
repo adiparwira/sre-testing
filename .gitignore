@@ -1,1 +1,38 @@
 gcp-service-account.json
+
+# ==========================================
+# Terraform Core & Runtime (Di dalam folder terraform/)
+# ==========================================
+terraform/.terraform/
+
+# Mengabaikan file lock dependency provider
+# terraform/.terraform.lock.hcl
+
+# ==========================================
+# Terraform State Files
+# ==========================================
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/crash.log
+terraform/crash.*.log
+
+# ==========================================
+# Terraform Variables & Secrets
+# ==========================================
+terraform/*.tfvars
+terraform/*.tfvars.json
+!terraform/example.tfvars
+!terraform/*.example.tfvars
+
+# ==========================================
+# Override & Plan Files
+# ==========================================
+terraform/*.tfoverride
+terraform/*.tfoverride.json
+terraform/*.tfplan
+
+# ==========================================
+# CLI Configuration
+# ==========================================
+terraform/.terraformrc
+terraform/terraform.rc
